@@ -1,0 +1,67 @@
+// FacadePattern/Program.cs
+using System;
+
+namespace FacadePattern
+{
+    // Subsystems
+    public class Engine
+    {
+        public void Start() => Console.WriteLine("Engine started.");
+        public void Stop() => Console.WriteLine("Engine stopped.");
+    }
+
+    public class Lights
+    {
+        public void TurnOn() => Console.WriteLine("Lights on.");
+        public void TurnOff() => Console.WriteLine("Lights off.");
+    }
+
+    public class MusicSystem
+    {
+        public void Play() => Console.WriteLine("Music is playing.");
+        public void Stop() => Console.WriteLine("Music stopped.");
+    }
+
+    // Facade
+    public class CarFacade
+    {
+        private readonly Engine _engine;
+        private readonly Lights _lights;
+        private readonly MusicSystem _musicSystem;
+
+        public CarFacade(Engine engine, Lights lights, MusicSystem musicSystem)
+        {
+            _engine = engine;
+            _lights = lights;
+            _musicSystem = musicSystem;
+        }
+
+        public void StartCar()
+        {
+            _engine.Start();
+            _lights.TurnOn();
+            _musicSystem.Play();
+        }
+
+        public void StopCar()
+        {
+            _engine.Stop();
+            _lights.TurnOff();
+            _musicSystem.Stop();
+        }
+    }
+
+    class Program
+    {
+        static void Main()
+        {
+            var engine = new Engine();
+            var lights = new Lights();
+            var musicSystem = new MusicSystem();
+            var carFacade = new CarFacade(engine, lights, musicSystem);
+
+            carFacade.StartCar();
+            carFacade.StopCar();
+        }
+    }
+}
